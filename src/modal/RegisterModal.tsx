@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import * as z from "zod";
 
 import Heading from "@/components/Heading";
@@ -36,20 +36,21 @@ const RegisterModal = () => {
       return response.data;
     },
     onSuccess: (data: any) => {
-      toast.success("Successfully", {
-        description: data.message,
-        position: "top-right",
-        duration: 5000,
-        richColors: true,
-      });
+      // toast.success("Successfully", {
+      //   description: data.message,
+      //   position: "top-right",
+      //   duration: 5000,
+      //   richColors: true,
+      // });
+      registerModal.onClose();
     },
     onError: (error: any) => {
-      toast.error("An error occurred", {
-        description: error.message,
-        position: "top-right",
-        duration: 5000,
-        richColors: true,
-      });
+      // toast.error("An error occurred", {
+      //   description: error.message,
+      //   position: "top-right",
+      //   duration: 5000,
+      //   richColors: true,
+      // });
     },
   });
 
