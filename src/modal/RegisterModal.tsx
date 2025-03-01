@@ -1,19 +1,21 @@
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import Heading from "@/components/Heading";
 import AppInput from "@/components/shared/AppInput";
-import Modal from "./Modal";
 import { completeSchema } from "@/schemas/auth-schema";
 import useRegisterModal from "@/hooks/useRegisterModal";
 import useLoginModal from "@/hooks/useLoginModal";
+import Modal from "./Modal";
+import axiosInstance from "@/services/axiosInstance";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
-  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof completeSchema>>({
     resolver: zodResolver(completeSchema),
@@ -24,9 +26,36 @@ const RegisterModal = () => {
     loginModal.onOpen();
   }, [registerModal, loginModal]);
 
-  function onSubmit(values: z.infer<typeof completeSchema>) {
-    console.log(values);
-  }
+  const mutation = useMutation({
+    mutationFn: async (data: z.infer<typeof completeSchema>) => {
+      const { firstName, lastName, ...rest } = data;
+      const response = await axiosInstance.post("/auth/register", {
+        name: `${lastName} ${firstName}`,
+        ...rest,
+      });
+      return response.data;
+    },
+    onSuccess: (data: any) => {
+      toast.success("Successfully", {
+        description: data.message,
+        position: "top-right",
+        duration: 5000,
+        richColors: true,
+      });
+    },
+    onError: (error: any) => {
+      toast.error("An error occurred", {
+        description: error.message,
+        position: "top-right",
+        duration: 5000,
+        richColors: true,
+      });
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof completeSchema>) => {
+    mutation.mutate(values);
+  };
 
   const bodyContent = (
     <div className="flex flex-col gap-2">
@@ -35,7 +64,7 @@ const RegisterModal = () => {
         <AppInput
           id="firstName"
           label="First Name"
-          disabled={isLoading}
+          disabled={mutation.isPending}
           register={form.register}
           errors={form.formState.errors}
           required
@@ -43,7 +72,7 @@ const RegisterModal = () => {
         <AppInput
           id="lastName"
           label="Last Name"
-          disabled={isLoading}
+          disabled={mutation.isPending}
           register={form.register}
           errors={form.formState.errors}
           required
@@ -52,7 +81,7 @@ const RegisterModal = () => {
       <AppInput
         id="email"
         label="Email"
-        disabled={isLoading}
+        disabled={mutation.isPending}
         register={form.register}
         errors={form.formState.errors}
         required
@@ -61,7 +90,7 @@ const RegisterModal = () => {
         id="password"
         label="Password"
         type="password"
-        disabled={isLoading}
+        disabled={mutation.isPending}
         register={form.register}
         errors={form.formState.errors}
         required
@@ -70,7 +99,7 @@ const RegisterModal = () => {
         id="confirmPassword"
         label="Con"
         type="password"
-        disabled={isLoading}
+        disabled={mutation.isPending}
         register={form.register}
         errors={form.formState.errors}
         required
@@ -125,7 +154,7 @@ const RegisterModal = () => {
 
   return (
     <Modal
-      disabled={isLoading}
+      disabled={mutation.isPending}
       isOpen={registerModal.isOpen}
       title="Register"
       actionLabel="Continue"
