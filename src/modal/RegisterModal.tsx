@@ -1,8 +1,8 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-// import { toast } from "sonner";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import Heading from "@/components/Heading";
@@ -11,7 +11,7 @@ import { completeSchema } from "@/schemas/auth-schema";
 import useRegisterModal from "@/hooks/useRegisterModal";
 import useLoginModal from "@/hooks/useLoginModal";
 import Modal from "./Modal";
-import axiosInstance from "@/services/axiosInstance";
+import { registerUser } from "@/services/auth";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
@@ -28,29 +28,26 @@ const RegisterModal = () => {
 
   const mutation = useMutation({
     mutationFn: async (data: z.infer<typeof completeSchema>) => {
-      const { firstName, lastName, ...rest } = data;
-      const response = await axiosInstance.post("/auth/register", {
-        name: `${lastName} ${firstName}`,
-        ...rest,
-      });
-      return response.data;
+      const response = await registerUser(data);
+      return response;
     },
     onSuccess: (data: any) => {
-      // toast.success("Successfully", {
-      //   description: data.message,
-      //   position: "top-right",
-      //   duration: 5000,
-      //   richColors: true,
-      // });
+      console.log(data);
+      toast.success("Successfully", {
+        description: data.message,
+        position: "top-right",
+        duration: 5000,
+        richColors: true,
+      });
       registerModal.onClose();
     },
     onError: (error: any) => {
-      // toast.error("An error occurred", {
-      //   description: error.message,
-      //   position: "top-right",
-      //   duration: 5000,
-      //   richColors: true,
-      // });
+      toast.error("An error occurred", {
+        description: error.message,
+        position: "top-right",
+        duration: 5000,
+        richColors: true,
+      });
     },
   });
 
@@ -98,7 +95,7 @@ const RegisterModal = () => {
       />
       <AppInput
         id="confirmPassword"
-        label="Con"
+        label="Confirm Password"
         type="password"
         disabled={mutation.isPending}
         register={form.register}
