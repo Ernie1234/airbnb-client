@@ -14,7 +14,7 @@ const Navbar = () => {
               <img
                 src="/Images/logo.png"
                 alt="logo"
-                className="hidden md:block cursor-pointer w-20"
+                className="hidden md:block cursor-pointer w-28"
               />
             </Link>
             <Search />

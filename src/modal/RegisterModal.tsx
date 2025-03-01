@@ -24,7 +24,9 @@ const RegisterModal = () => {
     loginModal.onOpen();
   }, [registerModal, loginModal]);
 
-  const onSubmit = async () => {};
+  function onSubmit(values: z.infer<typeof completeSchema>) {
+    console.log(values);
+  }
 
   const bodyContent = (
     <div className="flex flex-col gap-2">
