@@ -11,8 +11,9 @@ export const Route = createRootRoute({
       <Navbar />
       <RegisterModal />
       <LoginModal />
-
+      {/* <div className="pb-20 pt-28"> */}
       <Outlet />
+      {/* </div> */}
       <TanStackRouterDevtools />
     </>
   ),

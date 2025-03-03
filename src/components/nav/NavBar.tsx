@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import Container from "../shared/Container";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
+import { Categories } from "./Categories";
 
 const Navbar = () => {
   return (
@@ -22,6 +23,7 @@ const Navbar = () => {
           </div>
         </Container>
       </div>
+      <Categories />
     </nav>
   );
 };
