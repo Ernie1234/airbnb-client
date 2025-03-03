@@ -38,6 +38,7 @@ const LoginModal = () => {
         duration: 5000,
         richColors: true,
       });
+      loginModal.onClose();
     },
     onError: (error: any) => {
       toast.error("An error occurred", {
