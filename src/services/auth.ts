@@ -23,3 +23,22 @@ export const registerUser = async (userData: {
     }
   }
 };
+
+export const loginUser = async (userData: {
+  email: string;
+  password: string;
+}) => {
+  try {
+    const response = await axiosInstance.post("/auth/login", userData);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // Log the error for debugging
+      console.error("Login error:", error);
+      throw new Error(error.response?.data?.message || "Login failed!");
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("Login failed");
+    }
+  }
+};

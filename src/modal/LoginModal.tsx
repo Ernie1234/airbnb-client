@@ -7,28 +7,28 @@ import * as z from "zod";
 
 import Heading from "@/components/Heading";
 import AppInput from "@/components/shared/AppInput";
-import { completeSchema } from "@/schemas/auth-schema";
+import { loginFormSchema } from "@/schemas/auth-schema";
 import useRegisterModal from "@/hooks/useRegisterModal";
 import useLoginModal from "@/hooks/useLoginModal";
 import Modal from "./Modal";
-import { registerUser } from "@/services/auth";
+import { loginUser } from "@/services/auth";
 
-const RegisterModal = () => {
+const LoginModal = () => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
 
-  const form = useForm<z.infer<typeof completeSchema>>({
-    resolver: zodResolver(completeSchema),
+  const form = useForm<z.infer<typeof loginFormSchema>>({
+    resolver: zodResolver(loginFormSchema),
   });
 
   const onToggle = useCallback(() => {
-    registerModal.onClose();
-    loginModal.onOpen();
+    registerModal.onOpen();
+    loginModal.onClose();
   }, [registerModal, loginModal]);
 
   const mutation = useMutation({
-    mutationFn: async (data: z.infer<typeof completeSchema>) => {
-      const response = await registerUser(data);
+    mutationFn: async (data: z.infer<typeof loginFormSchema>) => {
+      const response = await loginUser(data);
       return response;
     },
     onSuccess: (data: any) => {
@@ -38,7 +38,6 @@ const RegisterModal = () => {
         duration: 5000,
         richColors: true,
       });
-      onToggle();
     },
     onError: (error: any) => {
       toast.error("An error occurred", {
@@ -50,31 +49,13 @@ const RegisterModal = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof completeSchema>) => {
+  const onSubmit = async (values: z.infer<typeof loginFormSchema>) => {
     mutation.mutate(values);
   };
 
   const bodyContent = (
     <div className="flex flex-col gap-2">
-      <Heading title="Welcome to Airbnb" subtitle="Create an account!" />
-      <div className="flex items-center gap-2 mt-3">
-        <AppInput
-          id="firstName"
-          label="First Name"
-          disabled={mutation.isPending}
-          register={form.register}
-          errors={form.formState.errors}
-          required
-        />
-        <AppInput
-          id="lastName"
-          label="Last Name"
-          disabled={mutation.isPending}
-          register={form.register}
-          errors={form.formState.errors}
-          required
-        />
-      </div>
+      <Heading title="Welcome back" subtitle="Login to your account!" />
       <AppInput
         id="email"
         label="Email"
@@ -92,37 +73,11 @@ const RegisterModal = () => {
         errors={form.formState.errors}
         required
       />
-      <AppInput
-        id="confirmPassword"
-        label="Confirm Password"
-        type="password"
-        disabled={mutation.isPending}
-        register={form.register}
-        errors={form.formState.errors}
-        required
-      />
     </div>
   );
 
   const footerContent = (
     <div className="flex flex-col gap-2 mt-3">
-      {/* <hr />
-      <AppBtn
-        outline
-        label="Continue with Google"
-        icon={FcGoogle}
-        onClick={() => {
-          // signIn("google")
-        }}
-      />
-      <AppBtn
-        outline
-        label="Continue with Github"
-        icon={AiFillGithub}
-        onClick={() => {
-          // signIn("github");
-        }}
-      /> */}
       <div
         className="
           text-neutral-500 
@@ -132,7 +87,7 @@ const RegisterModal = () => {
         "
       >
         <p>
-          Already have an account?
+          Don't have an account?
           <span
             onClick={onToggle}
             className="
@@ -142,7 +97,7 @@ const RegisterModal = () => {
             "
           >
             {" "}
-            Log in
+            Register
           </span>
         </p>
       </div>
@@ -152,10 +107,10 @@ const RegisterModal = () => {
   return (
     <Modal
       disabled={mutation.isPending}
-      isOpen={registerModal.isOpen}
-      title="Register"
+      isOpen={loginModal.isOpen}
+      title="Login"
       actionLabel="Continue"
-      onClose={registerModal.onClose}
+      onClose={loginModal.onClose}
       onSubmit={form.handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
@@ -163,4 +118,4 @@ const RegisterModal = () => {
   );
 };
 
-export default RegisterModal;
+export default LoginModal;

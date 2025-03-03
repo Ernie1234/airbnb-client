@@ -44,3 +44,10 @@ const emailSchema = z.string().email({ message: "Invalid email address." });
 export const completeSchema = formSchema.extend({
   email: emailSchema,
 });
+
+export const loginFormSchema = z.object({
+  email: emailSchema,
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters long." }),
+});
