@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import * as z from "zod";
 
-import Heading from "@/components/Heading";
+import Heading from "@/components/shared/Heading";
 import AppInput from "@/components/shared/AppInput";
 import { loginFormSchema } from "@/schemas/auth-schema";
 import useRegisterModal from "@/hooks/useRegisterModal";
@@ -32,6 +32,9 @@ const LoginModal = () => {
       return response;
     },
     onSuccess: (data: any) => {
+      console.log(data);
+      localStorage.setItem("token", data.user.token);
+
       toast.success("Successfully", {
         description: data.message,
         position: "top-right",

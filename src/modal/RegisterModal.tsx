@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import * as z from "zod";
 
-import Heading from "@/components/Heading";
+import Heading from "@/components/shared/Heading";
 import AppInput from "@/components/shared/AppInput";
 import { completeSchema } from "@/schemas/auth-schema";
 import useRegisterModal from "@/hooks/useRegisterModal";

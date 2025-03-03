@@ -16,3 +16,19 @@ export const getAllListing = async () => {
     }
   }
 };
+
+export const getListingById = async (listingId: string) => {
+  try {
+    const response = await axiosInstance.get(`/listings/${listingId}`);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // Log the error for debugging
+      console.error("Error Listing:", error);
+      throw new Error(error.response?.data?.message || "Listing failed!");
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("Listing failed");
+    }
+  }
+};

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 
-import Container from "../Component";
+import Container from "../shared/Container";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
 
