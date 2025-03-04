@@ -46,7 +46,7 @@ const UserMenu = () => {
       {isOpen && (
         <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
           <div className="flex flex-col cursor-pointer">
-            {currentUser.email ? (
+            {!currentUser.email ? (
               <>
                 <MenuItem onClick={() => {}} label="My Trips" />
                 <MenuItem onClick={() => {}} label="My Favorites" />

@@ -52,7 +52,7 @@ export const categoriesData = [
     desc: "This property is in arctic!",
   },
   {
-    label: "Islands",
+    label: "Island",
     icon: GiIsland,
     desc: "This property is on an island!",
   },
@@ -96,7 +96,7 @@ export const categoriesData = [
     desc: "This property is Gym and Fitness friendly",
   },
   {
-    label: "Castles",
+    label: "Castle",
     icon: Castle,
     desc: "This property is in a Castles",
   },

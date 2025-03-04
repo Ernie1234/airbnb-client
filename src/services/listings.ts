@@ -1,9 +1,12 @@
 import axiosInstance from "./axiosInstance";
-import axios from "axios"; // Make sure to import axios
+import axios from "axios"; // Import axios
 
-export const getAllListing = async () => {
+// Update the function to accept an optional category parameter
+export const getAllListing = async (category?: string) => {
   try {
-    const response = await axiosInstance.get("/listings");
+    // Construct the query parameters
+    const params = category ? { category } : {};
+    const response = await axiosInstance.get("/listings", { params }); // Pass params as query parameters
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

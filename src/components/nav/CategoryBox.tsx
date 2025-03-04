@@ -1,47 +1,35 @@
+import { useSearchStore } from "@/hooks/useSearchStore";
 import { cn } from "@/lib/utils";
-import { useRouter } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import type { ComponentType } from "react";
 
 interface Props {
   label: string;
   desc: string;
   icon: ComponentType<{ size: number }>;
-  selected?: boolean;
+  // selected?: boolean;
 }
 
 export const CategoryBox: React.FC<Props> = ({
   desc,
   icon: Icon,
   label,
-  selected,
+  // selected,
 }) => {
-  const router = useRouter();
+  const { category, toggleCategory } = useSearchStore();
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    // Access current query parameters
-    const currentCategories = router.state?.query?.category || [];
-
-    // Ensure currentCategories is an array
-    const categoriesArray = Array.isArray(currentCategories)
-      ? currentCategories
-      : [currentCategories];
-
-    if (categoriesArray.includes(label)) {
-      // Remove the category if it exists
-      const updatedCategories = categoriesArray.filter((cat) => cat !== label);
-      router.setQuery({
-        category: updatedCategories.length > 0 ? updatedCategories : undefined,
-      });
-    } else {
-      // Add the category if it doesn't exist
-      const updatedCategories = [...categoriesArray, label];
-      router.setQuery({ category: updatedCategories });
-    }
+    toggleCategory(label);
+    navigate({
+      search: { category: label === category ? undefined : label } as any,
+    });
   };
 
+  const selected = category === label;
   return (
     <div
-      onClick={handleClick} // Call handleClick on click
+      onClick={handleClick}
       className={cn(
         "flex flex-col items-center justify-center gap-1 p-2 border-b-2 hover:text-neutral-800 transition-all cursor-pointer duration-500",
         selected ? "border-b-neutral-800" : "border-transparent",
