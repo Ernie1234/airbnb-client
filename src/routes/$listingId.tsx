@@ -35,15 +35,15 @@ function RouteComponent() {
   const { listing } = Route.useLoaderData();
   console.log("Listing in listing details: ", listing);
   return (
-    <div className="min-h-dvh">
+    <div className="min-h-dvh font-display">
       <div className="lg:max-w-10/12 p-5 mx-auto">
         <img
           src={listing.data.imageSrc}
           alt={listing.data.title}
-          className="rounded-xl w-full "
+          className="rounded-xl w-full"
         />
-        <div className="mt-5">
-          <h1>{listing.data.title}</h1>
+        <div className="mt-5 font-primary">
+          <h1 className="font-primary">{listing.data.title}</h1>
           <p>{listing.data.description}</p>
           <p>Price: ${listing.data.price}</p>
           <p>Location: {listing.data.location}</p>
