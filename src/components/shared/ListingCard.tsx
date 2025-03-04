@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { format } from "date-fns";
 import { useMemo } from "react";
 import { HeartBtn } from "./HeartBtn";
-import { timeAgo } from "@/lib/utils";
+import { formatPrice, timeAgo } from "@/lib/utils";
 import type { IListing } from "@/types/listing";
 import type { IReservation } from "@/types/reservation";
 import type { IUser } from "@/types/user";
@@ -72,7 +72,7 @@ export const ListingCard: React.FC<Props> = ({
             {reservationDate || listing.category}
           </p>
           <p className="">
-            ${listing.price}{" "}
+            ${formatPrice(listing.price)}{" "}
             <span className="text-sm text-muted-foreground">night</span>
           </p>
           {onAction && actionLabel && (

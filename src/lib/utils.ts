@@ -11,3 +11,10 @@ export function timeAgo(date: Date | string): string {
   const distance = formatDistanceToNow(dateObj, { addSuffix: true });
   return `Added ${distance}`;
 }
+
+export function formatPrice(price: number) {
+  return price.toLocaleString("en-US", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+}
