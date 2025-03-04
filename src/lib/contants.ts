@@ -1,3 +1,4 @@
+import { MdOutlineHolidayVillage } from "react-icons/md";
 import { CiMountain1 } from "react-icons/ci";
 import { PiBarn, PiFarmLight, PiPersonSimpleSki } from "react-icons/pi";
 import { HiOutlineViewGridAdd } from "react-icons/hi";
@@ -6,7 +7,6 @@ import {
   GiIsland,
   GiMountainCave,
   GiPalmTree,
-  GiPerspectiveDiceSixFacesRandom,
 } from "react-icons/gi";
 import { IoDiamondOutline } from "react-icons/io5";
 import {
@@ -47,9 +47,14 @@ export const categoriesData = [
     desc: "This property is trending!",
   },
   {
+    label: "Villa",
+    icon: MdOutlineHolidayVillage,
+    desc: "This property is trending!",
+  },
+  {
     label: "Arctic",
     icon: Snowflake,
-    desc: "This property is in arctic!",
+    desc: "This property is in villa!",
   },
   {
     label: "Island",
