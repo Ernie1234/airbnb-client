@@ -19,6 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ListingReviews } from "@/components/single-listing-comp/ListingReviews";
 import { ListingComments } from "@/components/single-listing-comp/ListingComments";
 import { ListingMap } from "@/components/single-listing-comp/ListingMap";
+import { SingleListingHeader } from "@/components/single-listing-comp/SingleListingHeader";
 
 export const Route = createFileRoute("/$listingId")({
   component: RouteComponent,
@@ -55,27 +56,10 @@ function RouteComponent() {
   return (
     <div className="min-h-dvh font-display">
       <div className="lg:max-w-10/12 p-5 mx-auto space-y-4 relative">
-        <div className="flex gap-8 items-center justify-between">
-          <Heading title={listing.data.title} />
-          <div className="flex gap-2 items-center">
-            <Button
-              variant="ghost"
-              className="group transition-all duration-500 flex items-center"
-            >
-              <FiShare />
-              <span className="underline underline-offset-1 group-hover:no-underline font-[700]">
-                Share
-              </span>
-            </Button>
-            <Button
-              variant="ghost"
-              className="group transition-all duration-500 flex items-center"
-            >
-              <Heart />
-              <span className="font-[700]">Save</span>
-            </Button>
-          </div>
-        </div>
+        <SingleListingHeader
+          title={listing.data.title}
+          listingId={listing.data._id}
+        />
         <img
           src={listing.data.imageSrc}
           alt={listing.data.title}
