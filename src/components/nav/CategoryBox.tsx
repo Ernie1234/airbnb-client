@@ -1,7 +1,8 @@
 import { useSearchStore } from "@/hooks/useSearchStore";
-import { cn } from "@/lib/utils";
 import { useNavigate } from "@tanstack/react-router";
 import type { ComponentType } from "react";
+
+import { cn } from "@/lib/utils";
 
 interface Props {
   label: string;
@@ -10,12 +11,7 @@ interface Props {
   // selected?: boolean;
 }
 
-export const CategoryBox: React.FC<Props> = ({
-  desc,
-  icon: Icon,
-  label,
-  // selected,
-}) => {
+export const CategoryBox: React.FC<Props> = ({ desc, icon: Icon, label }) => {
   const { category, toggleCategory } = useSearchStore();
   const navigate = useNavigate();
 

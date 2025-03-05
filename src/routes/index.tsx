@@ -23,7 +23,8 @@ function App() {
   const { category, location } = useSearchStore();
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["getAllListing", category],
+    queryKey: ["getAllListing", category, location],
+    // queryFn: async () => await getAllListing(),
     queryFn: async () => await getAllListing(category, location),
   });
 

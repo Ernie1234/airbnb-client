@@ -44,11 +44,13 @@ export const ListingCard: React.FC<Props> = ({
     return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
 
+  console.log(listing);
+
   return (
     <Link
-      key={listing.id}
+      key={listing._id}
       to={`/$listingId`}
-      params={{ listingId: listing.id }}
+      params={{ listingId: listing._id }}
       className="col-span-1 cursor-pointer group block"
     >
       <div className="flex flex-col gap-2 w-full">
@@ -59,12 +61,12 @@ export const ListingCard: React.FC<Props> = ({
             src={listing.imageSrc}
           />
           <div className="absolute top-3 right-3">
-            <HeartBtn listingId={listing.id} currentUser={currentUser?.id} />
+            <HeartBtn listingId={listing._id} currentUser={currentUser?.id} />
           </div>
         </div>
 
-        <div className="font-medium text-base">
-          <p className="line-clamp-1">{listing.title}</p>
+        <div className="font-medium text-base font-display">
+          <p className="line-clamp-1 font-semibold">{listing.title}</p>
           <p className="text-muted-foreground line-clamp-1">
             {timeAgo(listing.createdAt)}
           </p>
@@ -73,7 +75,9 @@ export const ListingCard: React.FC<Props> = ({
           </p>
           <p className="">
             ${formatPrice(listing.price)}{" "}
-            <span className="text-sm text-muted-foreground">night</span>
+            <span className="text-sm text-muted-foreground font-display">
+              night
+            </span>
           </p>
           {onAction && actionLabel && (
             <AppBtn

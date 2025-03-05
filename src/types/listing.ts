@@ -11,5 +11,28 @@ export interface IListing {
   location: string;
   userId: string | null;
   price: number;
-  id: string;
+  _id: string;
+}
+
+interface Property {
+  _id: string;
+  title: string;
+  description: string;
+  category: string;
+  location: string;
+  price: number;
+  hostName: string;
+  bathroomCount: number;
+  roomCount: number;
+  guestCount: number;
+  imageSrc: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IPropertyResponse {
+  success: boolean;
+  message: string;
+  data: Property;
 }
