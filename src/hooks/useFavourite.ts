@@ -7,7 +7,6 @@ import {
   type GetFavouritesResponse,
 } from "@/services/favouriteApi";
 
-// Create a QueryClient instance
 const queryClient = new QueryClient();
 
 export const useFavourites = () => {
