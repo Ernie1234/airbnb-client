@@ -23,7 +23,7 @@ export const SingleListingHeader = ({ title, listingId }: Props) => {
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: {error?.message}</div>;
 
-  const isFavourite = favourites?.some((fav) => fav.id === listingId); // Adjust based on actual data structure
+  const isFavourite = favourites?.some((fav) => fav.id === listingId);
 
   const handleAddFavourite = () => {
     addFavouriteMutation.mutate(listingId);
