@@ -44,7 +44,7 @@ export const ListingCard: React.FC<Props> = ({
     return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
 
-  console.log(listing);
+  // console.log(listing);
 
   return (
     <Link

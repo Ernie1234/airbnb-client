@@ -42,3 +42,12 @@ export const loginUser = async (userData: {
     }
   }
 };
+
+export const checkSession = async () => {
+  try {
+    const response = await axiosInstance.get("/auth/check-session");
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to check session");
+  }
+};

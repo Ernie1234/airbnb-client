@@ -4,8 +4,11 @@ import Container from "../shared/Container";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
 import { Categories } from "./Categories";
+import { useAuth } from "@/hooks/useAuth";
 
 const Navbar = () => {
+  const { isLoggedIn, isLoading } = useAuth();
+  console.log(isLoggedIn, isLoading);
   return (
     <nav className="sticky w-full bg-white z-10 shadow-sm">
       <div className="py-4 border-b-[1px]">
