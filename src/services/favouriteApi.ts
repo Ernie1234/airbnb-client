@@ -46,7 +46,7 @@ export const removeFavourite = async (
 };
 
 export interface Favourite {
-  _id: string;
+  id: string;
   // Add other properties as needed
 }
 

@@ -7,6 +7,8 @@ import {
   type GetFavouritesResponse,
 } from "@/services/favouriteApi";
 
+import { toast } from "sonner";
+
 const queryClient = new QueryClient();
 
 export const useFavourites = () => {
@@ -16,7 +18,7 @@ export const useFavourites = () => {
     isError,
     error,
   } = useQuery<GetFavouritesResponse, Error>({
-    queryKey: ["favourites"],
+    queryKey: ["getFavourites"],
     queryFn: getFavourites,
   });
 
@@ -24,9 +26,25 @@ export const useFavourites = () => {
 
   const addFavouriteMutation = useMutation<AddFavouriteResponse, Error, string>(
     {
-      mutationFn: addFavourite,
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["favourites"] });
+      mutationFn: (listingId) => addFavourite(listingId),
+      onSuccess: (data) => {
+        queryClient.invalidateQueries({ queryKey: ["getFavourites"] });
+        toast.success("Successfully", {
+          description: data.message,
+          position: "top-right",
+          duration: 5000,
+          richColors: true,
+        });
+      },
+      onError: (error) => {
+        // Handle error (e.g., show a toast notification)
+        toast.error("An error occurred", {
+          description: error.message,
+          position: "top-right",
+          duration: 5000,
+          richColors: true,
+        });
+        console.error("Error adding favourite:", error);
       },
     }
   );
@@ -36,9 +54,25 @@ export const useFavourites = () => {
     Error,
     string
   >({
-    mutationFn: removeFavourite,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["favourites"] });
+    mutationFn: (listingId) => removeFavourite(listingId),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["getFavourites"] });
+      toast.info("Successfully", {
+        description: data.message,
+        position: "top-right",
+        duration: 5000,
+        richColors: true,
+      });
+    },
+    onError: (error) => {
+      // Handle error (e.g., show a toast notification)
+      toast.error("An error occurred", {
+        description: error.message,
+        position: "top-right",
+        duration: 5000,
+        richColors: true,
+      });
+      console.error("Error removing favourite:", error);
     },
   });
 

@@ -49,7 +49,7 @@ function RouteComponent() {
       <div className="lg:max-w-10/12 p-5 mx-auto space-y-4 relative">
         <SingleListingHeader
           title={listing.data.title}
-          listingId={listing.data._id}
+          listingId={listing.data.id}
         />
         <img
           src={listing.data.imageSrc}
@@ -78,7 +78,7 @@ function RouteComponent() {
               />
               <div className="flex flex-col">
                 <h3 className="font-semibold">Hosted by Anumah</h3>
-                <p>{listing.data.userId}</p>
+                <p>{listing.data.userId.id}</p>
               </div>
             </div>
             <Separator />

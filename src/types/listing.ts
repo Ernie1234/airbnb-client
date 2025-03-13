@@ -15,7 +15,7 @@ export interface IListing {
 }
 
 interface Property {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   category: string;

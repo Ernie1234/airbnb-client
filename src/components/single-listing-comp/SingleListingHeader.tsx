@@ -3,6 +3,7 @@ import Heading from "../shared/Heading";
 import { Button } from "../ui/button";
 import { FiShare } from "react-icons/fi";
 import { Heart } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Props {
   title: string;
@@ -22,7 +23,7 @@ export const SingleListingHeader = ({ title, listingId }: Props) => {
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: {error?.message}</div>;
 
-  const isFavourite = favourites?.some((fav) => fav._id === listingId); // Adjust based on actual data structure
+  const isFavourite = favourites?.some((fav) => fav.id === listingId); // Adjust based on actual data structure
 
   const handleAddFavourite = () => {
     addFavouriteMutation.mutate(listingId);
@@ -50,7 +51,12 @@ export const SingleListingHeader = ({ title, listingId }: Props) => {
           variant="ghost"
           className="group transition-all duration-500 flex items-center"
         >
-          <Heart />
+          <Heart
+            className={cn(
+              "",
+              isFavourite ? "fill-red-500 text-red-700" : "fill-transparent"
+            )}
+          />
           <span className="font-[700]"> {isFavourite ? "Unsave" : "Save"}</span>
         </Button>
       </div>
