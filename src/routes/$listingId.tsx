@@ -11,6 +11,7 @@ import { ListingReviews } from "@/components/single-listing-comp/ListingReviews"
 import { ListingComments } from "@/components/single-listing-comp/ListingComments";
 import { ListingMap } from "@/components/single-listing-comp/ListingMap";
 import { SingleListingHeader } from "@/components/single-listing-comp/SingleListingHeader";
+import { timeAgo } from "@/lib/utils";
 
 export const Route = createFileRoute("/$listingId")({
   component: RouteComponent,
@@ -77,8 +78,10 @@ function RouteComponent() {
                 className="rounded-full h-12 w-12 object-contain"
               />
               <div className="flex flex-col">
-                <h3 className="font-semibold">Hosted by Anumah</h3>
-                <p>{listing.data.userId.id}</p>
+                <h3 className="font-semibold">
+                  Hosted by {listing.data.userId.name}
+                </h3>
+                <p>Created {timeAgo(listing.data.userId.createdAt)}</p>
               </div>
             </div>
             <Separator />

@@ -68,7 +68,7 @@ export const ListingCard: React.FC<Props> = ({
         <div className="font-medium text-base font-display">
           <p className="line-clamp-1 font-semibold">{listing.title}</p>
           <p className="text-muted-foreground line-clamp-1">
-            {timeAgo(listing.createdAt)}
+            Added {timeAgo(listing.createdAt)}
           </p>
           <p className="text-muted-foreground">
             {reservationDate || listing.category}

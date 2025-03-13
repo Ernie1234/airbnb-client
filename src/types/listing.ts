@@ -1,3 +1,5 @@
+import type { IUser } from "./user";
+
 export interface IListing {
   title: string;
   description: string;
@@ -26,7 +28,7 @@ interface Property {
   roomCount: number;
   guestCount: number;
   imageSrc: string;
-  userId: string;
+  userId: IUser;
   createdAt: string;
   updatedAt: string;
 }
