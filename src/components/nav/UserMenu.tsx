@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/hooks/useRegisterModal";
 import useLoginModal from "@/hooks/useLoginModal";
-import type { IUser } from "@/types/user";
+// import type { IUser } from "@/types/user";
 
 const UserMenu = () => {
   const registerModal = useRegisterModal();

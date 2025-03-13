@@ -1,18 +1,9 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { FiShare } from "react-icons/fi";
 
 import { getListingById } from "@/services/listings";
 import Heading from "@/components/shared/Heading";
 import { Button } from "@/components/ui/button";
-import {
-  BedDouble,
-  ChevronDown,
-  Dot,
-  Heart,
-  Image,
-  Key,
-  MapPin,
-} from "lucide-react";
+import { BedDouble, ChevronDown, Dot, Image, Key, MapPin } from "lucide-react";
 import type { IPropertyResponse } from "@/types/listing";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,7 +23,7 @@ export const Route = createFileRoute("/$listingId")({
   onError: ({ error }) => {
     console.error(error);
   },
-  errorComponent: ({ error, reset }) => {
+  errorComponent: ({ error }) => {
     const router = useRouter();
 
     return (

@@ -6,7 +6,7 @@ interface Props {
   listingId: string;
 }
 
-export const HeartBtn: React.FC<Props> = ({ currentUser, listingId }) => {
+export const HeartBtn: React.FC<Props> = ({}) => {
   const hasFavorited = false;
   const toggleFavorite = () => {};
   return (

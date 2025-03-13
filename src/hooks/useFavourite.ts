@@ -23,10 +23,10 @@ export const useFavourites = () => {
   const favourites = favouritesResponse?.data || [];
 
   const addFavouriteMutation = useMutation<AddFavouriteResponse, Error, string>(
-    addFavourite,
     {
+      mutationFn: addFavourite,
       onSuccess: () => {
-        queryClient.invalidateQueries(["favourites"]);
+        queryClient.invalidateQueries({ queryKey: ["favourites"] });
       },
     }
   );
@@ -35,10 +35,10 @@ export const useFavourites = () => {
     AddFavouriteResponse,
     Error,
     string
-  >(removeFavourite, {
+  >({
+    mutationFn: removeFavourite,
     onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries(["favourites"]);
+      queryClient.invalidateQueries({ queryKey: ["favourites"] });
     },
   });
 

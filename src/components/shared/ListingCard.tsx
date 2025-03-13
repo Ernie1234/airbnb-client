@@ -19,7 +19,7 @@ interface Props {
 }
 
 export const ListingCard: React.FC<Props> = ({
-  actionId,
+  // actionId,
   listing,
   onAction,
   reservation,
