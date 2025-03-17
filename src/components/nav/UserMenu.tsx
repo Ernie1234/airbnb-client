@@ -1,5 +1,7 @@
 import { AiOutlineMenu } from "react-icons/ai";
 import { useCallback, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/hooks/useRegisterModal";
 import useLoginModal from "@/hooks/useLoginModal";
@@ -10,6 +12,7 @@ import { getInitials } from "@/lib/utils";
 // import type { IUser } from "@/types/user";
 
 const UserMenu = () => {
+  const queryClient = useQueryClient();
   const { isLoggedIn, isLoading, user } = useAuth();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
@@ -20,6 +23,10 @@ const UserMenu = () => {
   }, []);
 
   console.log(isLoggedIn, isLoading, user);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    queryClient.invalidateQueries({ queryKey: ["getFavourites"] });
+  };
 
   return (
     <div className="relative">
@@ -58,7 +65,7 @@ const UserMenu = () => {
                 <MenuItem onClick={() => {}} label="My properties" />
                 <MenuItem onClick={() => {}} label="Airbnb my home" />
                 {/* <Separator /> */}
-                <MenuItem onClick={() => {}} label="Logout" />
+                <MenuItem onClick={handleLogout} label="Logout" />
               </>
             ) : (
               <>
