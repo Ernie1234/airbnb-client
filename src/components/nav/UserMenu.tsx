@@ -3,9 +3,14 @@ import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/hooks/useRegisterModal";
 import useLoginModal from "@/hooks/useLoginModal";
+import { useAuth } from "@/hooks/useAuth";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getInitials } from "@/lib/utils";
+
 // import type { IUser } from "@/types/user";
 
 const UserMenu = () => {
+  const { isLoggedIn, isLoading, user } = useAuth();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [isOpen, setIsOpen] = useState(false);
@@ -14,11 +19,7 @@ const UserMenu = () => {
     setIsOpen((prev) => !prev);
   }, []);
 
-  // TODO: implement getCurrentUser
-  // const currentUser = getCurrentUser();
-  const currentUser = {
-    email: "email",
-  };
+  console.log(isLoggedIn, isLoading, user);
 
   return (
     <div className="relative">
@@ -35,18 +36,21 @@ const UserMenu = () => {
         >
           <AiOutlineMenu />
           <div className="hidden md:block">
-            <img
-              src="/Images/placeholder1.jpg"
-              alt="placeholder"
-              className="rounded-full w-8"
-            />
+            {/* <img src="" alt="placeholder" className="rounded-full w-8" /> */}
+            <Avatar>
+              <AvatarImage
+                src={user?.imageUrl || "/Images/1acdeehllopr.jpg"}
+                alt={user?.name}
+              />
+              <AvatarFallback>{getInitials(user?.name ?? "")}</AvatarFallback>
+            </Avatar>
           </div>
         </div>
       </div>
       {isOpen && (
         <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
           <div className="flex flex-col cursor-pointer">
-            {!currentUser.email ? (
+            {isLoggedIn ? (
               <>
                 <MenuItem onClick={() => {}} label="My Trips" />
                 <MenuItem onClick={() => {}} label="My Favorites" />

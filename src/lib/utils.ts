@@ -18,3 +18,21 @@ export function formatPrice(price: number) {
     maximumFractionDigits: 0,
   });
 }
+
+export function getInitials(fullName: string): string {
+  const nameParts = fullName.trim().split(/\s+/);
+
+  if (nameParts.length >= 2) {
+    const firstNameInitial = nameParts[0].charAt(0).toUpperCase();
+    const lastNameInitial = nameParts[nameParts.length - 1]
+      .charAt(0)
+      .toUpperCase();
+    return `${firstNameInitial}${lastNameInitial}`;
+  }
+
+  if (nameParts.length === 1) {
+    return nameParts[0].charAt(0).toUpperCase();
+  }
+
+  return "";
+}
