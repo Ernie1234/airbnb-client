@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import * as z from "zod";
 
@@ -14,6 +14,7 @@ import Modal from "./Modal";
 import { loginUser } from "@/services/auth";
 
 const LoginModal = () => {
+  const queryClient = useQueryClient();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
 
@@ -34,6 +35,7 @@ const LoginModal = () => {
     onSuccess: (data: any) => {
       console.log(data);
       localStorage.setItem("token", data.user.token);
+      queryClient.invalidateQueries({ queryKey: ["getFavourites"] });
 
       toast.success("Successfully", {
         description: data.message,
