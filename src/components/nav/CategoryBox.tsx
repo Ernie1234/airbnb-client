@@ -33,7 +33,7 @@ export const CategoryBox: React.FC<Props> = ({ desc, icon: Icon, label }) => {
       )}
     >
       <Icon size={26} />
-      <div className="font-medium text-sm">{label}</div>
+      <div className="font-medium text-sm text-nowrap">{label}</div>
       <div className="text-xs text-neutral-400 aria-readonly:block hidden">
         {desc}
       </div>

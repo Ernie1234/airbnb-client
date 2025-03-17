@@ -25,7 +25,6 @@ export const ListingCard: React.FC<Props> = ({
   reservation,
   disabled,
   actionLabel,
-  currentUser,
 }) => {
   //   const router = useRouter();
 
@@ -61,7 +60,7 @@ export const ListingCard: React.FC<Props> = ({
             src={listing.imageSrc}
           />
           <div className="absolute top-3 right-3">
-            <HeartBtn listingId={listing._id} currentUser={currentUser?.id} />
+            <HeartBtn listingId={listing._id} />
           </div>
         </div>
 

@@ -6,20 +6,21 @@ import {
   type AddFavouriteResponse,
   type GetFavouritesResponse,
 } from "@/services/favouriteApi";
-
 import { toast } from "sonner";
 
 const queryClient = new QueryClient();
 
-export const useFavourites = () => {
+export const useFavourites = (enabled: boolean = true) => {
   const {
     data: favouritesResponse,
     isLoading,
     isError,
     error,
+    refetch, // Add refetch function to manually trigger a refetch
   } = useQuery<GetFavouritesResponse, Error>({
     queryKey: ["getFavourites"],
     queryFn: getFavourites,
+    enabled,
   });
 
   const favourites = favouritesResponse?.data || [];
@@ -28,7 +29,9 @@ export const useFavourites = () => {
     {
       mutationFn: (listingId) => addFavourite(listingId),
       onSuccess: (data) => {
+        // Invalidate and refetch the favourites query
         queryClient.invalidateQueries({ queryKey: ["getFavourites"] });
+        refetch(); // Manually trigger a refetch
         toast.success("Successfully", {
           description: data.message,
           position: "top-right",
@@ -37,7 +40,6 @@ export const useFavourites = () => {
         });
       },
       onError: (error) => {
-        // Handle error (e.g., show a toast notification)
         toast.error("An error occurred", {
           description: error.message,
           position: "top-right",
@@ -56,7 +58,9 @@ export const useFavourites = () => {
   >({
     mutationFn: (listingId) => removeFavourite(listingId),
     onSuccess: (data) => {
+      // Invalidate and refetch the favourites query
       queryClient.invalidateQueries({ queryKey: ["getFavourites"] });
+      refetch(); // Manually trigger a refetch
       toast.info("Successfully", {
         description: data.message,
         position: "top-right",
@@ -65,7 +69,6 @@ export const useFavourites = () => {
       });
     },
     onError: (error) => {
-      // Handle error (e.g., show a toast notification)
       toast.error("An error occurred", {
         description: error.message,
         position: "top-right",
