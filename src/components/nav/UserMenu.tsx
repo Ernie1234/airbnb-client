@@ -8,32 +8,39 @@ import useLoginModal from "@/hooks/useLoginModal";
 import { useAuth } from "@/hooks/useAuth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/lib/utils";
-
-// import type { IUser } from "@/types/user";
+import useRentModal from "@/hooks/useRentModal";
 
 const UserMenu = () => {
   const queryClient = useQueryClient();
   const { isLoggedIn, isLoading, user } = useAuth();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
+  const rentModal = useRentModal();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
 
-  console.log(isLoggedIn, isLoading, user);
   const handleLogout = () => {
     localStorage.removeItem("token");
     queryClient.invalidateQueries({ queryKey: ["getFavourites"] });
   };
+
+  const onRent = useCallback(() => {
+    if (!isLoading && !isLoggedIn) return loginModal.onOpen();
+
+    rentModal.onOpen();
+  }, [loginModal, rentModal, isLoggedIn]);
+
+  console.log("In UserMenu: ", isLoggedIn, isLoading, user);
 
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
         <div
           className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
-          onClick={() => {}}
+          onClick={onRent}
         >
           Airbnb you home
         </div>
