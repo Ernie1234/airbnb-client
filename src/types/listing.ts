@@ -3,7 +3,7 @@ import type { IUser } from "./user";
 export interface IListing {
   title: string;
   description: string;
-  imageSrc: string;
+  imageSrc: string[];
   createdAt: Date;
   updatedAt: Date;
   category: string;
@@ -13,10 +13,10 @@ export interface IListing {
   location: string;
   userId: string | null;
   price: number;
-  _id: string;
+  id: string;
 }
 
-interface Property {
+interface IProperty {
   id: string;
   title: string;
   description: string;
@@ -27,7 +27,7 @@ interface Property {
   bathroomCount: number;
   roomCount: number;
   guestCount: number;
-  imageSrc: string;
+  imageSrc: string[];
   userId: IUser;
   createdAt: string;
   updatedAt: string;
@@ -36,5 +36,16 @@ interface Property {
 export interface IPropertyResponse {
   success: boolean;
   message: string;
-  data: Property;
+  data: {
+    listings: IListing;
+    page: number;
+    limit: number;
+    total: number;
+  };
+}
+
+export interface ISingleListingsResponse {
+  success: boolean;
+  message: string;
+  data: IProperty;
 }

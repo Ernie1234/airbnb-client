@@ -47,9 +47,9 @@ export const ListingCard: React.FC<Props> = ({
 
   return (
     <Link
-      key={listing._id}
+      key={listing.id}
       to={`/$listingId`}
-      params={{ listingId: listing._id }}
+      params={{ listingId: listing.id }}
       className="col-span-1 cursor-pointer group block"
     >
       <div className="flex flex-col gap-2 w-full">
@@ -57,10 +57,10 @@ export const ListingCard: React.FC<Props> = ({
           <img
             className="object-cover h-full w-full group-hover:scale-110 transition-all duration-500"
             alt={listing.title}
-            src={listing.imageSrc}
+            src={listing.imageSrc[0]}
           />
           <div className="absolute top-3 right-3">
-            <HeartBtn listingId={listing._id} />
+            <HeartBtn listingId={listing.id} />
           </div>
         </div>
 

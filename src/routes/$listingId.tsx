@@ -4,7 +4,7 @@ import { getListingById } from "@/services/listings";
 import Heading from "@/components/shared/Heading";
 import { Button } from "@/components/ui/button";
 import { BedDouble, ChevronDown, Dot, Image, Key, MapPin } from "lucide-react";
-import type { IPropertyResponse } from "@/types/listing";
+import type { ISingleListingsResponse } from "@/types/listing";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ListingReviews } from "@/components/single-listing-comp/ListingReviews";
@@ -16,7 +16,7 @@ import { timeAgo } from "@/lib/utils";
 export const Route = createFileRoute("/$listingId")({
   component: RouteComponent,
   loader: async ({ params: { listingId } }) => {
-    const listing: IPropertyResponse = await getListingById(listingId);
+    const listing: ISingleListingsResponse = await getListingById(listingId);
     return {
       listing,
     };
@@ -53,7 +53,7 @@ function RouteComponent() {
           listingId={listing.data.id}
         />
         <img
-          src={listing.data.imageSrc}
+          src={listing.data.imageSrc[0]}
           alt={listing.data.title}
           className="rounded-xl w-full"
         />
