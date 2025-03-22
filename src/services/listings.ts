@@ -41,3 +41,30 @@ export const getListingById = async (listingId: string) => {
     }
   }
 };
+
+export const createListing = async (listingData: {
+  title: string;
+  description: string;
+  price: number;
+  location: string; // Only save location.value
+  images: string[];
+  category: string;
+  bathroomCount: number;
+  roomCount: number;
+  guestCount: number;
+}) => {
+  try {
+    const response = await axiosInstance.post("/listings", listingData);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Listing creation error:", error);
+      throw new Error(
+        error.response?.data?.message || "Listing creation failed!"
+      );
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("Listing creation failed");
+    }
+  }
+};

@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import useRentModal from "@/hooks/useRentModal";
@@ -13,6 +15,7 @@ import Map from "../inputs/Map";
 import Counter from "../inputs/Counter";
 import ImageUpload from "../inputs/ImageUpload";
 import AppInput from "../shared/AppInput";
+import { createListing } from "@/services/listings";
 
 enum STEPS {
   CATEGORY = 0,
@@ -62,6 +65,7 @@ export const RentModal = () => {
       roomCount: 1,
       bathroomCount: 1,
       imageSrc: [],
+      title: "",
       description: "",
       price: "",
     },
@@ -73,6 +77,9 @@ export const RentModal = () => {
   const roomCount = watch("roomCount");
   const bathroomCount = watch("bathroomCount");
   const imageSrc = watch("imageSrc");
+  const title = watch("title");
+  const description = watch("description");
+  const price = watch("price");
 
   const setCustomValue = (field: keyof FormValues, value: any) => {
     setValue(field, value, {
@@ -81,6 +88,40 @@ export const RentModal = () => {
       shouldTouch: true,
     });
   };
+
+  const mutation = useMutation({
+    mutationFn: async (data: FormValues) => {
+      const listingData = {
+        title: data.title,
+        description: data.description,
+        price: Number(data.price),
+        location: data.location.value,
+        images: data.imageSrc,
+        category: data.category,
+        bathroomCount: data.bathroomCount,
+        roomCount: data.roomCount,
+        guestCount: data.guestCount,
+      };
+      return await createListing(listingData);
+    },
+    onSuccess: (data) => {
+      toast.success("Listing created successfully", {
+        description: data.message,
+        position: "top-right",
+        duration: 5000,
+        richColors: true,
+      });
+      rentModal.onClose();
+    },
+    onError: (error) => {
+      toast.error("Listing creation failed", {
+        description: error.message,
+        position: "top-right",
+        duration: 5000,
+        richColors: true,
+      });
+    },
+  });
 
   const handleNextStep = async () => {
     let isValid = false;
@@ -114,7 +155,7 @@ export const RentModal = () => {
     if (!isValid) return;
 
     if (step === STEPS.PRICE) {
-      handleSubmit(onSubmit)();
+      handleSubmit((data) => mutation.mutate(data))();
     } else {
       setStep((prevStep) => prevStep + 1);
     }
@@ -122,11 +163,6 @@ export const RentModal = () => {
 
   const handlePreviousStep = () => {
     setStep((prevStep) => prevStep - 1);
-  };
-
-  const onSubmit = (data: FormValues) => {
-    console.log("Form submitted:", data);
-    rentModal.onClose();
   };
 
   const actionLabel = useMemo(() => {
@@ -235,7 +271,6 @@ export const RentModal = () => {
           title="How would you describe your place?"
           subtitle="Short and sweet works best!"
         />
-
         <AppInput
           id="title"
           label="Title"
