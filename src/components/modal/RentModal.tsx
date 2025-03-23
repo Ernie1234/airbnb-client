@@ -38,7 +38,7 @@ const formSchema = z.object({
   roomCount: z.number().min(1, "Room count is required"),
   bathroomCount: z.number().min(1, "Bathroom count is required"),
   imageSrc: z.array(z.string()).min(1, "At least one image is required"),
-  title: z.string(),
+  title: z.string().min(1, "Title is required"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   price: z.string().min(1, "Price is required"),
 });
@@ -145,7 +145,7 @@ export const RentModal = () => {
         isValid = await trigger("imageSrc");
         break;
       case STEPS.DESCRIPTION:
-        isValid = await trigger("description");
+        isValid = (await trigger("title")) && (await trigger("description"));
         break;
       case STEPS.PRICE:
         isValid = await trigger("price");
