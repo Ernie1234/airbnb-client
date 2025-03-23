@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import * as z from "zod";
 
@@ -46,6 +46,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export const RentModal = () => {
+  const queryClient = useQueryClient();
   const [step, setStep] = useState(STEPS.CATEGORY);
   const rentModal = useRentModal();
 
@@ -111,6 +112,7 @@ export const RentModal = () => {
         duration: 5000,
         richColors: true,
       });
+      queryClient.invalidateQueries({ queryKey: ["getAllListing"] });
       rentModal.onClose();
     },
     onError: (error) => {

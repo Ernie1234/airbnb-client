@@ -1,8 +1,10 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { format } from "date-fns";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+
 import { HeartBtn } from "./HeartBtn";
-import { formatPrice, timeAgo } from "@/lib/utils";
+import { cn, formatPrice, timeAgo } from "@/lib/utils";
 import type { IListing } from "@/types/listing";
 import type { IReservation } from "@/types/reservation";
 import type { IUser } from "@/types/user";
@@ -26,6 +28,7 @@ export const ListingCard: React.FC<Props> = ({
   disabled,
   actionLabel,
 }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   //   const router = useRouter();
 
   const handleCancel = () => {
@@ -45,6 +48,17 @@ export const ListingCard: React.FC<Props> = ({
 
   // console.log(listing);
 
+  const handleNext = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === listing.imageSrc.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const handlePrev = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0 ? listing.imageSrc.length - 1 : prevIndex - 1
+    );
+  };
   return (
     <Link
       key={listing.id}
@@ -57,11 +71,50 @@ export const ListingCard: React.FC<Props> = ({
           <img
             className="object-cover h-full w-full group-hover:scale-110 transition-all duration-500"
             alt={listing.title}
-            src={listing.imageSrc[0]}
+            src={listing.imageSrc[currentImageIndex]}
           />
           <div className="absolute top-3 right-3">
             <HeartBtn listingId={listing.id} />
           </div>
+          {listing.imageSrc.length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  handlePrev();
+                }}
+                className={cn(
+                  "hidden group-hover:block absolute left-3 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 hover:bg-white transition-all duration-300",
+                  currentImageIndex === 0 ? "opacity-0" : "opacity-100"
+                )}
+                style={{
+                  visibility: currentImageIndex === 0 ? "hidden" : "visible",
+                }}
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNext();
+                }}
+                className={cn(
+                  "hidden group-hover:block absolute right-3 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 hover:bg-white transition-all duration-300",
+                  currentImageIndex === listing.imageSrc.length - 1
+                    ? "opacity-0"
+                    : "opacity-100"
+                )}
+                style={{
+                  visibility:
+                    currentImageIndex === listing.imageSrc.length - 1
+                      ? "hidden"
+                      : "visible",
+                }}
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </>
+          )}
         </div>
 
         <div className="font-medium text-base font-display">
