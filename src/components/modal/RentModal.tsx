@@ -78,9 +78,9 @@ export const RentModal = () => {
   const roomCount = watch("roomCount");
   const bathroomCount = watch("bathroomCount");
   const imageSrc = watch("imageSrc");
-  const title = watch("title");
-  const description = watch("description");
-  const price = watch("price");
+  // const title = watch("title");
+  // const description = watch("description");
+  // const price = watch("price");
 
   const setCustomValue = (field: keyof FormValues, value: any) => {
     setValue(field, value, {
