@@ -11,7 +11,7 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
-  imageUrl: string | undefined;
+  imageSrc: string;
   role: ERole;
   isActive: boolean;
   isVerified: boolean;

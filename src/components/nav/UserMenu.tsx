@@ -53,7 +53,7 @@ const UserMenu = () => {
             {/* <img src="" alt="placeholder" className="rounded-full w-8" /> */}
             <Avatar>
               <AvatarImage
-                src={user?.imageUrl || "/Images/1acdeehllopr.jpg"}
+                src={user?.imageSrc || "/Images/1acdeehllopr.jpg"}
                 alt={user?.name}
               />
               <AvatarFallback>{getInitials(user?.name ?? "")}</AvatarFallback>
