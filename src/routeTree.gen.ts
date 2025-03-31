@@ -11,10 +11,17 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as ReservationsImport } from './routes/reservations'
 import { Route as ListingIdImport } from './routes/$listingId'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const ReservationsRoute = ReservationsImport.update({
+  id: '/reservations',
+  path: '/reservations',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const ListingIdRoute = ListingIdImport.update({
   id: '/$listingId',
@@ -46,6 +53,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ListingIdImport
       parentRoute: typeof rootRoute
     }
+    '/reservations': {
+      id: '/reservations'
+      path: '/reservations'
+      fullPath: '/reservations'
+      preLoaderRoute: typeof ReservationsImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -54,36 +68,41 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$listingId': typeof ListingIdRoute
+  '/reservations': typeof ReservationsRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$listingId': typeof ListingIdRoute
+  '/reservations': typeof ReservationsRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/$listingId': typeof ListingIdRoute
+  '/reservations': typeof ReservationsRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$listingId'
+  fullPaths: '/' | '/$listingId' | '/reservations'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$listingId'
-  id: '__root__' | '/' | '/$listingId'
+  to: '/' | '/$listingId' | '/reservations'
+  id: '__root__' | '/' | '/$listingId' | '/reservations'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ListingIdRoute: typeof ListingIdRoute
+  ReservationsRoute: typeof ReservationsRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ListingIdRoute: ListingIdRoute,
+  ReservationsRoute: ReservationsRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,7 +116,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/$listingId"
+        "/$listingId",
+        "/reservations"
       ]
     },
     "/": {
@@ -105,6 +125,9 @@ export const routeTree = rootRoute
     },
     "/$listingId": {
       "filePath": "$listingId.tsx"
+    },
+    "/reservations": {
+      "filePath": "reservations.tsx"
     }
   }
 }

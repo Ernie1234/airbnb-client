@@ -9,6 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/lib/utils";
 import useRentModal from "@/hooks/useRentModal";
+import { useNavigate } from "@tanstack/react-router";
 
 const UserMenu = () => {
   const queryClient = useQueryClient();
@@ -16,6 +17,7 @@ const UserMenu = () => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const rentModal = useRentModal();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = useCallback(() => {
@@ -68,7 +70,10 @@ const UserMenu = () => {
               <>
                 <MenuItem onClick={() => {}} label="My Trips" />
                 <MenuItem onClick={() => {}} label="My Favorites" />
-                <MenuItem onClick={() => {}} label="My reservations" />
+                <MenuItem
+                  onClick={() => navigate({ to: `/reservations` })}
+                  label="My reservations"
+                />
                 <MenuItem onClick={() => {}} label="My properties" />
                 <MenuItem onClick={rentModal.onOpen} label="Airbnb my home" />
                 {/* <Separator /> */}

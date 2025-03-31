@@ -20,3 +20,18 @@ export const createReservation = async (data: {
     }
   }
 };
+
+export const getReservations = async () => {
+  try {
+    const response = await axiosInstance.get("/reservations");
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Error Listing:", error);
+      throw new Error(error.response?.data?.message || "Listing failed!");
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("Listing failed");
+    }
+  }
+};
