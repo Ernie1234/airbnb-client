@@ -1,17 +1,16 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { BedDouble, Dot, Image, Key, MapPin } from "lucide-react";
 
 import { getListingById } from "@/services/listings";
 import Heading from "@/components/shared/Heading";
-import { Button } from "@/components/ui/button";
-import { BedDouble, ChevronDown, Dot, Image, Key, MapPin } from "lucide-react";
 import type { ISingleListingsResponse } from "@/types/listing";
 import { Separator } from "@/components/ui/separator";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ListingReviews } from "@/components/single-listing-comp/ListingReviews";
 import { ListingComments } from "@/components/single-listing-comp/ListingComments";
 import { ListingMap } from "@/components/single-listing-comp/ListingMap";
 import { SingleListingHeader } from "@/components/single-listing-comp/SingleListingHeader";
 import { timeAgo } from "@/lib/utils";
+import ReservationFormCard from "@/components/shared/ReservationFormCard";
 
 export const Route = createFileRoute("/$listingId")({
   component: RouteComponent,
@@ -44,7 +43,7 @@ export const Route = createFileRoute("/$listingId")({
 
 function RouteComponent() {
   const { listing } = Route.useLoaderData();
-  console.log("Listing in listing details: ", listing);
+
   return (
     <div className="min-h-dvh font-display">
       <div className="lg:max-w-10/12 p-5 mx-auto space-y-4 relative">
@@ -129,50 +128,7 @@ function RouteComponent() {
             <Separator />
           </div>
           <div className="bg-blue-4000 sticky top-8">
-            <Card className="w-[450px]">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  {true ? (
-                    <Heading title="Add dates for prices" />
-                  ) : (
-                    <>
-                      <Heading title={`$${listing.data.price}`} />
-                      <span className="font-normal">night</span>
-                    </>
-                  )}
-                </CardTitle>
-                <CardContent className="space-y-6 p-0 mt-2">
-                  <div className="rounded-lg border-2 w-full min-w-full">
-                    <div className="flex items-center w-full h-16">
-                      <div className="flex flex-col flex-1 p-2">
-                        <h4 className="font-[600] text-sm uppercase">
-                          check-in
-                        </h4>
-                        <p>Add date</p>
-                      </div>
-                      <Separator orientation="vertical" />
-                      <div className="flex flex-col flex-1 p-2">
-                        <h4 className="font-[600] text-sm uppercase">
-                          check-out
-                        </h4>
-                        <p>Add date</p>
-                      </div>
-                    </div>
-                    <Separator />
-                    <div className="flex justify-between items-center gap-8 p-2">
-                      <div className="flex flex-col flex-1">
-                        <h4 className="font-[600] text-sm uppercase">guests</h4>
-                        <p>1 guest</p>
-                      </div>
-                      <ChevronDown />
-                    </div>
-                  </div>
-                  <Button size="lg" variant="primary" className="w-full">
-                    Check availability
-                  </Button>
-                </CardContent>
-              </CardHeader>
-            </Card>
+            <ReservationFormCard listing={listing} />
           </div>
         </div>
 
