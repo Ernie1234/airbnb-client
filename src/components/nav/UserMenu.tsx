@@ -35,7 +35,7 @@ const UserMenu = () => {
     rentModal.onOpen();
   }, [loginModal, rentModal, isLoggedIn]);
 
-  console.log("In UserMenu: ", isLoggedIn, isLoading, user);
+  // console.log("In UserMenu: ", isLoggedIn, isLoading, user);
 
   return (
     <div className="relative">
@@ -69,12 +69,18 @@ const UserMenu = () => {
             {isLoggedIn ? (
               <>
                 <MenuItem onClick={() => {}} label="My Trips" />
-                <MenuItem onClick={() => {}} label="My Favorites" />
+                <MenuItem
+                  onClick={() => navigate({ to: `/favourites` })}
+                  label="My Favorites"
+                />
                 <MenuItem
                   onClick={() => navigate({ to: `/reservations` })}
                   label="My reservations"
                 />
-                <MenuItem onClick={() => {}} label="My properties" />
+                <MenuItem
+                  onClick={() => navigate({ to: `/properties` })}
+                  label="My properties"
+                />
                 <MenuItem onClick={rentModal.onOpen} label="Airbnb my home" />
                 {/* <Separator /> */}
                 <hr />

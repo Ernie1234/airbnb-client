@@ -12,6 +12,8 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as ReservationsImport } from './routes/reservations'
+import { Route as PropertiesImport } from './routes/properties'
+import { Route as FavouritesImport } from './routes/favourites'
 import { Route as ListingIdImport } from './routes/$listingId'
 import { Route as IndexImport } from './routes/index'
 
@@ -20,6 +22,18 @@ import { Route as IndexImport } from './routes/index'
 const ReservationsRoute = ReservationsImport.update({
   id: '/reservations',
   path: '/reservations',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PropertiesRoute = PropertiesImport.update({
+  id: '/properties',
+  path: '/properties',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const FavouritesRoute = FavouritesImport.update({
+  id: '/favourites',
+  path: '/favourites',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -53,6 +67,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ListingIdImport
       parentRoute: typeof rootRoute
     }
+    '/favourites': {
+      id: '/favourites'
+      path: '/favourites'
+      fullPath: '/favourites'
+      preLoaderRoute: typeof FavouritesImport
+      parentRoute: typeof rootRoute
+    }
+    '/properties': {
+      id: '/properties'
+      path: '/properties'
+      fullPath: '/properties'
+      preLoaderRoute: typeof PropertiesImport
+      parentRoute: typeof rootRoute
+    }
     '/reservations': {
       id: '/reservations'
       path: '/reservations'
@@ -68,12 +96,16 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$listingId': typeof ListingIdRoute
+  '/favourites': typeof FavouritesRoute
+  '/properties': typeof PropertiesRoute
   '/reservations': typeof ReservationsRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$listingId': typeof ListingIdRoute
+  '/favourites': typeof FavouritesRoute
+  '/properties': typeof PropertiesRoute
   '/reservations': typeof ReservationsRoute
 }
 
@@ -81,27 +113,44 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/$listingId': typeof ListingIdRoute
+  '/favourites': typeof FavouritesRoute
+  '/properties': typeof PropertiesRoute
   '/reservations': typeof ReservationsRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$listingId' | '/reservations'
+  fullPaths:
+    | '/'
+    | '/$listingId'
+    | '/favourites'
+    | '/properties'
+    | '/reservations'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$listingId' | '/reservations'
-  id: '__root__' | '/' | '/$listingId' | '/reservations'
+  to: '/' | '/$listingId' | '/favourites' | '/properties' | '/reservations'
+  id:
+    | '__root__'
+    | '/'
+    | '/$listingId'
+    | '/favourites'
+    | '/properties'
+    | '/reservations'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ListingIdRoute: typeof ListingIdRoute
+  FavouritesRoute: typeof FavouritesRoute
+  PropertiesRoute: typeof PropertiesRoute
   ReservationsRoute: typeof ReservationsRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ListingIdRoute: ListingIdRoute,
+  FavouritesRoute: FavouritesRoute,
+  PropertiesRoute: PropertiesRoute,
   ReservationsRoute: ReservationsRoute,
 }
 
@@ -117,6 +166,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/$listingId",
+        "/favourites",
+        "/properties",
         "/reservations"
       ]
     },
@@ -125,6 +176,12 @@ export const routeTree = rootRoute
     },
     "/$listingId": {
       "filePath": "$listingId.tsx"
+    },
+    "/favourites": {
+      "filePath": "favourites.tsx"
+    },
+    "/properties": {
+      "filePath": "properties.tsx"
     },
     "/reservations": {
       "filePath": "reservations.tsx"
