@@ -36,10 +36,10 @@ export const HeartBtn: React.FC<Props> = ({ listingId }) => {
     }
 
     if (isFavourite) {
-      console.log("Remove Favourite Clicked");
+      // console.log("Remove Favourite Clicked");
       removeFavouriteMutation.mutate(listingId);
     } else {
-      console.log("Add Favourite Clicked");
+      // console.log("Add Favourite Clicked");
       addFavouriteMutation.mutate(listingId);
     }
   };

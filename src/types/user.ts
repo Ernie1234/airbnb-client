@@ -1,5 +1,4 @@
 import type { IListing } from "./listing";
-import type { IReservation } from "./reservation";
 
 export enum ERole {
   USER = "USER",
@@ -23,5 +22,6 @@ export interface IUser {
   createdAt: Date;
   updatedAt: Date;
   Listings: IListing[];
-  Reservations: IReservation[];
+  Reservations: string[];
+  favouriteIds: string[];
 }

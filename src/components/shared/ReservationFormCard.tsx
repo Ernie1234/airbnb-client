@@ -12,12 +12,12 @@ import { createReservation } from "@/services/reservations";
 import type { ISingleListingsResponse } from "@/types/listing";
 import { cn } from "@/lib/utils";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -55,13 +55,22 @@ export default function ReservationFormCard({ listing }: ReservationFormProps) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: createReservation,
-    onSuccess: () => {
-      toast.success("Reservation created successfully!");
+    onSuccess: (data) => {
+      toast.success("Reservation created Successfully!", {
+        description: data.message,
+        position: "top-right",
+        duration: 5000,
+        richColors: true,
+      });
       form.reset();
     },
-    onError: (error) => {
-      toast.error("Failed to create reservation");
-      console.error("Reservation error:", error);
+    onError: (error: any) => {
+      toast.error("An Error occurred while reserving listing", {
+        description: error.message,
+        position: "top-right",
+        duration: 5000,
+        richColors: true,
+      });
     },
   });
 

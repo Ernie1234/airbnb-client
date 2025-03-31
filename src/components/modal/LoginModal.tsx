@@ -44,6 +44,7 @@ const LoginModal = () => {
         richColors: true,
       });
       loginModal.onClose();
+      window.location.reload();
     },
     onError: (error: any) => {
       toast.error("An error occurred", {
