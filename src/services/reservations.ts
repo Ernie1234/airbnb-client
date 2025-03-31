@@ -8,7 +8,7 @@ export const createReservation = async (data: {
 }) => {
   try {
     console.log("Creating reservation with data:", data);
-    const response = await axiosInstance.post(`/reservations`, { data });
+    const response = await axiosInstance.post(`/reservations`, data);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
