@@ -35,3 +35,22 @@ export const getReservations = async () => {
     }
   }
 };
+
+export const deleteReservation = async (reservationId: string) => {
+  try {
+    const response = await axiosInstance.delete(
+      `/reservations/${reservationId}`
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Error deleting reservation:", error);
+      throw new Error(
+        error.response?.data?.message || "Failed to delete reservation."
+      );
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("Failed to delete reservation.");
+    }
+  }
+};

@@ -1,14 +1,4 @@
-export interface IReservation {
-  id: string;
-  userId: string;
-  listingId: string;
-  startDate: Date;
-  endDate: Date;
-  totalPrice: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
-interface IReservationData {
+export interface IReservationData {
   createdAt: string;
   endDate: string;
   id: string;
@@ -33,9 +23,15 @@ interface IReservationData {
   userId: string;
 }
 
-export interface IReservationApiResponse {
+export interface IDataResponse {
   limit: number;
   page: number;
   reservations: IReservationData[];
   total: number;
+}
+
+export interface IReservationApiResponse {
+  data: IDataResponse;
+  message: string;
+  status: string;
 }
