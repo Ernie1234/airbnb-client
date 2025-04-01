@@ -27,7 +27,7 @@ function RouteComponent() {
   if (!user) return <div>Loading...</div>;
 
   const myProperties: IListing[] =
-    data?.data?.listings.filter((listing: any) =>
+    data?.data?.listings?.filter((listing: any) =>
       user?.Listings?.includes(listing.id)
     ) || [];
 
@@ -40,7 +40,8 @@ function RouteComponent() {
       />
     );
 
-  console.log("myProperties", myProperties);
+  console.log("users: ", user);
+  console.log("myProperties", data);
 
   return (
     <Container>
