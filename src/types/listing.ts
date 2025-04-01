@@ -37,7 +37,7 @@ export interface IPropertyResponse {
   success: boolean;
   message: string;
   data: {
-    listings: IListing;
+    listings: IListing[];
     page: number;
     limit: number;
     total: number;
