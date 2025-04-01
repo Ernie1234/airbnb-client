@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 
 import Container from "../shared/Container";
 import Search from "./Search";
@@ -6,6 +6,9 @@ import UserMenu from "./UserMenu";
 import { Categories } from "./Categories";
 
 const Navbar = () => {
+  const routerState = useRouterState();
+  const path = routerState.location.pathname;
+
   return (
     <nav className="sticky w-full bg-white z-10 shadow-sm">
       <div className="py-4 border-b-[1px]">
@@ -23,7 +26,7 @@ const Navbar = () => {
           </div>
         </Container>
       </div>
-      <Categories />
+      {path === "/" && <Categories />}
     </nav>
   );
 };
