@@ -1,54 +1,145 @@
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useState } from "react";
+import type { UseMutateFunction } from "@tanstack/react-query";
+
 import { Comment } from "./Comment";
+import { CommentDialog } from "./CommentDialog";
+import {
+  getCommentsByListing,
+  createComment,
+  deleteComment,
+  updateComment,
+} from "@/services/comments";
+import type {
+  ICommentApiResponse,
+  CreateCommentData,
+  IComment,
+  UpdateCommentData,
+} from "@/types/comment";
 
-const commentsArr = [
-  {
-    id: "1",
-    user: "John Doe",
-    content:
-      "Stayed here for the first part of a road trip around Norway and it was absolutely perfect. The views were stunning and it was incredibly peaceful. It was just a beautiful spot to stay.",
-    date: new Date("2022-02-10"),
-    since: "5 years on Airbnb",
-    rating: 4.5,
-    imgSrc: "/Images/avatar.webp",
-  },
-  {
-    id: "2",
-    user: "Jane Smith",
-    content:
-      "I had a great time in this place. The staff were friendly and the food was delicious. I highly recommend it to anyone looking for a nice place to stay.",
-    date: new Date("2021-12-05"),
-    since: "3 years on Airbnb",
-    rating: 4.8,
-    imgSrc: "/Images/avatar.webp",
-  },
-  {
-    id: "3",
-    user: "Mike Johnson",
-    content:
-      "This place was perfect for a family vacation. The staff were attentive and the food was delicious. I would definitely stay here again.",
-    date: new Date("2021-09-20"),
-    since: "2 years on Airbnb",
-    rating: 4.7,
-    imgSrc: "/Images/avatar.webp",
-  },
-  {
-    id: "4",
-    user: "Sarah Brown",
-    content:
-      "This place was perfect for a family vacation. The staff were attentive and the food was delicious. I would definitely stay here again.",
-    date: new Date("2021-07-15"),
-    since: "1 year on Airbnb",
-    rating: 4.6,
-    imgSrc: "/Images/avatar.webp",
-  },
-];
+export const ListingComments = ({ listingId }: { listingId: string }) => {
+  const queryClient = useQueryClient();
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
 
-export const ListingComments = () => {
+  const { data, error, isLoading } = useQuery<ICommentApiResponse>({
+    queryKey: ["comments", listingId],
+    queryFn: () => getCommentsByListing(listingId),
+  });
+
+  const { mutate: createCommentMutation, isPending: isCreating } = useMutation<
+    IComment,
+    Error,
+    CreateCommentData,
+    unknown
+  >({
+    mutationFn: createComment,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["comments", listingId] });
+      toast.success("Comment added successfully!");
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const { mutate: updateCommentMutation, isPending: isUpdating } = useMutation<
+    IComment,
+    Error,
+    UpdateCommentData,
+    unknown
+  >({
+    mutationFn: updateComment,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["comments", listingId] });
+      setEditingCommentId(null);
+      toast.success("Comment updated successfully!");
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const { mutate: deleteCommentMutation, isPending: isDeleting } = useMutation({
+    mutationFn: deleteComment,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["comments", listingId] });
+      toast.success("Comment deleted successfully!");
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
+
+  if (isLoading) return <div>Loading comments...</div>;
+  if (error) return <div>Error: {(error as Error).message}</div>;
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-8">
-      {commentsArr.map((comment) => (
-        <Comment key={comment.id} {...comment} />
-      ))}
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-semibold">Reviews</h2>
+        <CommentDialog
+          mode="create"
+          listingId={listingId}
+          onSubmit={
+            createCommentMutation as UseMutateFunction<
+              IComment,
+              Error,
+              CreateCommentData | UpdateCommentData,
+              unknown
+            >
+          }
+          isSubmitting={isCreating}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 gap-6">
+        {data?.data.comments?.length === 0 ? (
+          <p className="text-gray-500">
+            No reviews yet. Be the first to review!
+          </p>
+        ) : (
+          data?.data.comments?.map((comment) => (
+            <div key={comment.id} className="relative">
+              {editingCommentId === comment.id ? (
+                <CommentDialog
+                  mode="edit"
+                  onSubmit={
+                    updateCommentMutation as UseMutateFunction<
+                      IComment,
+                      Error,
+                      CreateCommentData | UpdateCommentData,
+                      unknown
+                    >
+                  }
+                  isSubmitting={isUpdating}
+                  defaultValues={{
+                    content: comment.content,
+                    rating: comment.rating,
+                    commentId: comment.id,
+                  }}
+                />
+              ) : (
+                <Comment
+                  id={comment.id}
+                  user={{
+                    name: comment.user.name,
+                    imageSrc: comment.user.imageSrc,
+                    createdAt: new Date(comment.user.createdAt),
+                  }}
+                  content={comment.content}
+                  createdAt={new Date(comment.createdAt)}
+                  rating={comment.rating}
+                  onDelete={() => deleteCommentMutation(comment.id)}
+                  onEdit={() => setEditingCommentId(comment.id)}
+                  isDeleting={isDeleting}
+                  isEditing={isUpdating && editingCommentId === comment.id}
+                />
+              )}
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 };

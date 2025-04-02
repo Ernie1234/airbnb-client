@@ -135,7 +135,7 @@ function RouteComponent() {
         <Separator />
         <ListingReviews />
         <Separator />
-        <ListingComments />
+        <ListingComments listingId={listing.data.id} />
         <Separator />
         <ListingMap />
       </div>
