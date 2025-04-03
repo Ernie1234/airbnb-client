@@ -49,11 +49,24 @@ function RouteComponent() {
           title={listing.data.title}
           listingId={listing.data.id}
         />
-        <img
-          src={listing.data.imageSrc[0]}
-          alt={listing.data.title}
-          className="rounded-xl w-full"
-        />
+        {listing.data.imageSrc.length === 1 ? (
+          <img
+            src={listing.data.imageSrc[0]}
+            alt={listing.data.title}
+            className="rounded-xl w-full"
+          />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {listing.data.imageSrc.map((src, index) => (
+              <img
+                key={index}
+                src={src}
+                alt={listing.data.title}
+                className="rounded-xl w-full h-full object-cover"
+              />
+            ))}
+          </div>
+        )}
         <div className="flex gap-8 justify-between mt-8 relative">
           <div className="font-primary md:col-span-2">
             <div className="flex flex-col pb-5">
