@@ -9,7 +9,7 @@ import { ListingReviews } from "@/components/single-listing-comp/ListingReviews"
 import { ListingComments } from "@/components/single-listing-comp/ListingComments";
 import { ListingMap } from "@/components/single-listing-comp/ListingMap";
 import { SingleListingHeader } from "@/components/single-listing-comp/SingleListingHeader";
-import { timeAgo } from "@/lib/utils";
+import { cn, timeAgo } from "@/lib/utils";
 import ReservationFormCard from "@/components/shared/ReservationFormCard";
 
 export const Route = createFileRoute("/$listingId")({
@@ -57,14 +57,21 @@ function RouteComponent() {
           />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {listing.data.imageSrc.map((src, index) => (
-              <img
-                key={index}
-                src={src}
-                alt={listing.data.title}
-                className="rounded-xl w-full h-full object-cover"
-              />
-            ))}
+            <img
+              src={listing.data.imageSrc[0]}
+              alt={listing.data.title}
+              className="rounded-xl w-full"
+            />
+            <div className={cn("grid grid-cols-1 md:grid-cols-2 gap-4")}>
+              {listing.data.imageSrc.slice(1, 5).map((src, index) => (
+                <img
+                  key={index}
+                  src={src}
+                  alt={listing.data.title}
+                  className="rounded-xl w-full h-full object-cover"
+                />
+              ))}
+            </div>
           </div>
         )}
         <div className="flex gap-8 justify-between mt-8 relative">
