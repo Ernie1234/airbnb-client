@@ -1,3 +1,4 @@
+// components/CommentDialog.tsx
 import { Star } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,66 +23,72 @@ import {
   commentSchema,
   type CommentFormValues,
 } from "@/schemas/comments-schema";
+import { useState } from "react";
 
-interface CommentDialogProps {
-  mode: "create" | "edit";
-  listingId?: string; // Only required for create mode
-  onSubmit: UseMutateFunction<
-    IComment,
-    Error,
-    CreateCommentData | UpdateCommentData,
-    unknown
-  >;
+type CommentDialogBaseProps = {
   isSubmitting: boolean;
-  defaultValues?: CommentFormValues & { commentId?: string };
-}
+  children?: React.ReactNode;
+};
 
-export const CommentDialog = ({
-  mode,
-  listingId,
-  onSubmit,
-  isSubmitting,
-  defaultValues,
-}: CommentDialogProps) => {
+type CreateDialogProps = CommentDialogBaseProps & {
+  mode: "create";
+  listingId: string;
+  onSubmit: UseMutateFunction<IComment, Error, CreateCommentData, unknown>;
+};
+
+type EditDialogProps = CommentDialogBaseProps & {
+  mode: "edit";
+  onSubmit: UseMutateFunction<IComment, Error, UpdateCommentData, unknown>;
+  defaultValues: CommentFormValues & { commentId: string };
+};
+
+type CommentDialogProps = CreateDialogProps | EditDialogProps;
+
+export const CommentDialog = (props: CommentDialogProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   const {
     register,
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm<CommentFormValues>({
     resolver: zodResolver(commentSchema),
-    defaultValues: defaultValues || {
-      content: "",
-      rating: 0,
-    },
+    defaultValues:
+      props.mode === "edit"
+        ? props.defaultValues
+        : {
+            content: "",
+            rating: 0,
+          },
   });
 
   const ratingValue = watch("rating");
 
   const handleFormSubmit = (data: CommentFormValues) => {
-    if (mode === "create" && listingId) {
-      onSubmit({ listingId, ...data });
-    } else if (mode === "edit" && defaultValues?.commentId) {
-      onSubmit({ commentId: defaultValues.commentId, ...data });
+    if (props.mode === "create") {
+      props.onSubmit({ listingId: props.listingId, ...data });
+    } else {
+      props.onSubmit({ commentId: props.defaultValues.commentId, ...data });
     }
+    setIsOpen(false);
+    reset();
   };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        {mode === "edit" ? (
-          <Button variant="ghost" size="sm">
-            Edit
+        {props.children || (
+          <Button variant="primary">
+            {props.mode === "edit" ? "Edit" : "Leave a Comment"}
           </Button>
-        ) : (
-          <Button variant="outline">Leave a Review</Button>
         )}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {mode === "edit" ? "Edit Review" : "Write a Review"}
+            {props.mode === "edit" ? "Edit Comment" : "Write a Comment"}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -125,8 +132,12 @@ export const CommentDialog = ({
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Submitting..." : "Submit"}
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={props.isSubmitting}
+              >
+                {props.isSubmitting ? "Submitting..." : "Submit"}
               </Button>
             </div>
           </div>

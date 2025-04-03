@@ -1,7 +1,7 @@
+// components/ListingComments.tsx
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useState } from "react";
-import type { UseMutateFunction } from "@tanstack/react-query";
 
 import { Comment } from "./Comment";
 import { CommentDialog } from "./CommentDialog";
@@ -77,23 +77,16 @@ export const ListingComments = ({ listingId }: { listingId: string }) => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold">Reviews</h2>
+        <h2 className="text-xl font-semibold">Comment</h2>
         <CommentDialog
           mode="create"
           listingId={listingId}
-          onSubmit={
-            createCommentMutation as UseMutateFunction<
-              IComment,
-              Error,
-              CreateCommentData | UpdateCommentData,
-              unknown
-            >
-          }
+          onSubmit={createCommentMutation}
           isSubmitting={isCreating}
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-2 gap-6">
         {data?.data.comments?.length === 0 ? (
           <p className="text-gray-500">
             No reviews yet. Be the first to review!
@@ -101,41 +94,22 @@ export const ListingComments = ({ listingId }: { listingId: string }) => {
         ) : (
           data?.data.comments?.map((comment) => (
             <div key={comment.id} className="relative">
-              {editingCommentId === comment.id ? (
-                <CommentDialog
-                  mode="edit"
-                  onSubmit={
-                    updateCommentMutation as UseMutateFunction<
-                      IComment,
-                      Error,
-                      CreateCommentData | UpdateCommentData,
-                      unknown
-                    >
-                  }
-                  isSubmitting={isUpdating}
-                  defaultValues={{
-                    content: comment.content,
-                    rating: comment.rating,
-                    commentId: comment.id,
-                  }}
-                />
-              ) : (
-                <Comment
-                  id={comment.id}
-                  user={{
-                    name: comment.user.name,
-                    imageSrc: comment.user.imageSrc,
-                    createdAt: new Date(comment.user.createdAt),
-                  }}
-                  content={comment.content}
-                  createdAt={new Date(comment.createdAt)}
-                  rating={comment.rating}
-                  onDelete={() => deleteCommentMutation(comment.id)}
-                  onEdit={() => setEditingCommentId(comment.id)}
-                  isDeleting={isDeleting}
-                  isEditing={isUpdating && editingCommentId === comment.id}
-                />
-              )}
+              <Comment
+                id={comment.id}
+                user={{
+                  name: comment.userId.name,
+                  imageSrc: comment.userId.imageSrc,
+                  createdAt: new Date(comment.userId.createdAt),
+                  id: comment.userId.id,
+                }}
+                content={comment.content}
+                createdAt={new Date(comment.createdAt)}
+                rating={comment.rating}
+                onDelete={() => deleteCommentMutation(comment.id)}
+                isDeleting={isDeleting}
+                updateCommentMutation={updateCommentMutation}
+                isUpdating={isUpdating && editingCommentId === comment.id}
+              />
             </div>
           ))
         )}

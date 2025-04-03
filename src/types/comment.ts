@@ -15,7 +15,7 @@ export interface IComment {
   content: string;
   rating: number;
   createdAt: string;
-  user: {
+  userId: {
     id: string;
     name: string;
     imageSrc: string;
@@ -26,5 +26,8 @@ export interface IComment {
 export interface ICommentApiResponse {
   data: {
     comments: IComment[];
+    total: number;
+    page: number;
+    limit: number;
   };
 }
