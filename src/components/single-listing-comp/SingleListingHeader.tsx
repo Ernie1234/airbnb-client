@@ -1,3 +1,12 @@
+import {
+  TwitterShareButton,
+  WhatsappShareButton,
+  EmailShareButton,
+  TwitterIcon,
+  WhatsappIcon,
+  EmailIcon,
+} from "react-share";
+
 import { useFavourites } from "@/hooks/useFavourite";
 import Heading from "../shared/Heading";
 import { Button } from "../ui/button";
@@ -6,6 +15,14 @@ import { Heart, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import useLoginModal from "@/hooks/useLoginModal";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 interface Props {
   title: string;
@@ -15,6 +32,7 @@ interface Props {
 export const SingleListingHeader = ({ title, listingId }: Props) => {
   const { isLoggedIn, isLoading: userLoading } = useAuth();
   const loginModal = useLoginModal();
+  const currentUrl = typeof window !== "undefined" ? window.location.href : "";
 
   const {
     favourites,
@@ -44,16 +62,54 @@ export const SingleListingHeader = ({ title, listingId }: Props) => {
     <div className="flex gap-8 items-center justify-between">
       <Heading title={title} />
       <div className="flex gap-2 items-center">
-        <Button
-          variant="ghost"
-          className="group transition-all duration-500 flex items-center"
-          aria-label="Share this listing"
-        >
-          <FiShare />
-          <span className="underline underline-offset-1 group-hover:no-underline font-[700]">
-            Share
-          </span>
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant="ghost"
+              className="group transition-all duration-500 flex items-center"
+              aria-label="Share this listing"
+            >
+              <FiShare />
+              <span className="underline underline-offset-1 group-hover:no-underline font-[700]">
+                Share
+              </span>
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Share this listing</DialogTitle>
+            </DialogHeader>
+            <div className="flex justify-center gap-4 py-4">
+              <TwitterShareButton url={currentUrl} title={title}>
+                <TwitterIcon size={40} round />
+              </TwitterShareButton>
+              <WhatsappShareButton url={currentUrl} title={title}>
+                <WhatsappIcon size={40} round />
+              </WhatsappShareButton>
+              <EmailShareButton url={currentUrl} subject={title}>
+                <EmailIcon size={40} round />
+              </EmailShareButton>
+            </div>
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={currentUrl}
+                readOnly
+                className="flex-1 p-2 border rounded-md text-sm"
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  navigator.clipboard.writeText(currentUrl);
+                  toast.success("Link copied to clipboard!");
+                }}
+              >
+                Copy
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
         <Button
           onClick={handleFavouriteAction}
           variant="ghost"
