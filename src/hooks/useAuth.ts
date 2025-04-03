@@ -1,6 +1,7 @@
 import { checkSession } from "@/services/auth";
 import type { IUser } from "@/types/user";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export const useAuth = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
@@ -14,7 +15,10 @@ export const useAuth = () => {
         setUser(data.user);
         setIsLoggedIn(data.user.isLoggedIn);
       } catch (error) {
-        console.error("Error checking auth status:", error);
+        toast.error("Session expired. Please log in again.", {
+          description: "Your session has expired. Please log in again.",
+          position: "top-right",
+        });
         setIsLoggedIn(false);
       } finally {
         setIsLoading(false);

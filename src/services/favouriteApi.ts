@@ -15,12 +15,10 @@ export const addFavourite = async (
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error("Error adding favourite:", error);
       throw new Error(
         error.response?.data?.message || "Failed to add favourite!"
       );
     } else {
-      console.error("Unexpected error:", error);
       throw new Error("Failed to add favourite");
     }
   }
@@ -34,12 +32,10 @@ export const removeFavourite = async (
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error("Error removing favourite:", error);
       throw new Error(
         error.response?.data?.message || "Failed to remove favourite!"
       );
     } else {
-      console.error("Unexpected error:", error);
       throw new Error("Failed to remove favourite");
     }
   }
@@ -62,12 +58,10 @@ export const getFavourites = async (): Promise<GetFavouritesResponse> => {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error("Error fetching favourites:", error);
       throw new Error(
         error.response?.data?.message || "Failed to fetch favourites!"
       );
     } else {
-      console.error("Unexpected error:", error);
       throw new Error("Failed to fetch favourites");
     }
   }

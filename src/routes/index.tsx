@@ -32,8 +32,6 @@ function App() {
   if (error) return <div className="p-4">Error: {error.message}</div>;
   if (!data || data?.data?.length === 0) return <EmptyListing showReset />;
 
-  console.log("Listings:", data.data);
-
   return (
     <Container>
       <div className="p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-8">

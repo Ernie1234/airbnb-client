@@ -7,15 +7,12 @@ export const createReservation = async (data: {
   endDate: string;
 }) => {
   try {
-    console.log("Creating reservation with data:", data);
     const response = await axiosInstance.post(`/reservations`, data);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error("Error Listing:", error);
       throw new Error(error.response?.data?.message || "Listing failed!");
     } else {
-      console.error("Unexpected error:", error);
       throw new Error("Listing failed");
     }
   }
@@ -27,10 +24,8 @@ export const getReservations = async () => {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error("Error Listing:", error);
       throw new Error(error.response?.data?.message || "Listing failed!");
     } else {
-      console.error("Unexpected error:", error);
       throw new Error("Listing failed");
     }
   }
@@ -44,12 +39,10 @@ export const deleteReservation = async (reservationId: string) => {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error("Error deleting reservation:", error);
       throw new Error(
         error.response?.data?.message || "Failed to delete reservation."
       );
     } else {
-      console.error("Unexpected error:", error);
       throw new Error("Failed to delete reservation.");
     }
   }

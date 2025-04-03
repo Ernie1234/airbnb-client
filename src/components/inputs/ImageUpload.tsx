@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { toast } from "sonner";
 
 const cloudUrl = import.meta.env.VITE_PUBLIC_CLOUDINARY_CLOUD_NAME!;
 const uploadPreset = import.meta.env.VITE_PUBLIC_CLOUDINARY_UPLOAD_PRESET!;
@@ -30,7 +31,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ value, onChange }) => {
           const data = await response.json();
           uploadedUrls.push(data.secure_url);
         } catch (error) {
-          console.error("Error uploading image:", error);
+          toast.error("Error uploading image. Please try again.");
+          setUploading(false);
         }
       }
 

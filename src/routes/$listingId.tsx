@@ -20,9 +20,7 @@ export const Route = createFileRoute("/$listingId")({
       listing,
     };
   },
-  onError: ({ error }) => {
-    console.error(error);
-  },
+
   errorComponent: ({ error }) => {
     const router = useRouter();
 

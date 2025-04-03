@@ -31,9 +31,7 @@ export const ListingCard: React.FC<Props> = ({
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   //   const router = useRouter();
 
-  const handleCancel = () => {
-    console.log("first action canceled");
-  };
+  const handleCancel = () => {};
 
   const reservationDate = useMemo(() => {
     if (!reservation) {
@@ -45,8 +43,6 @@ export const ListingCard: React.FC<Props> = ({
 
     return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
-
-  // console.log(listing);
 
   const handleNext = () => {
     setCurrentImageIndex((prevIndex) =>

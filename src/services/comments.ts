@@ -10,12 +10,10 @@ export const getCommentsByListing = async (
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error("Error fetching comments:", error);
       throw new Error(
         error.response?.data?.message || "Failed to fetch comments"
       );
     } else {
-      console.error("Unexpected error:", error);
       throw new Error("Failed to fetch comments");
     }
   }
@@ -31,12 +29,10 @@ export const createComment = async (commentData: {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error("Error creating comment:", error);
       throw new Error(
         error.response?.data?.message || "Failed to create comment"
       );
     } else {
-      console.error("Unexpected error:", error);
       throw new Error("Failed to create comment");
     }
   }
@@ -58,12 +54,10 @@ export const updateComment = async (commentData: {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error("Error updating comment:", error);
       throw new Error(
         error.response?.data?.message || "Failed to update comment"
       );
     } else {
-      console.error("Unexpected error:", error);
       throw new Error("Failed to update comment");
     }
   }
@@ -74,12 +68,10 @@ export const deleteComment = async (commentId: string): Promise<void> => {
     await axiosInstance.delete(`/comments/${commentId}`);
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error("Error deleting comment:", error);
       throw new Error(
         error.response?.data?.message || "Failed to delete comment"
       );
     } else {
-      console.error("Unexpected error:", error);
       throw new Error("Failed to delete comment");
     }
   }

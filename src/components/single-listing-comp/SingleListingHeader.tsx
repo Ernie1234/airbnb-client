@@ -34,10 +34,8 @@ export const SingleListingHeader = ({ title, listingId }: Props) => {
     }
 
     if (isFavourite) {
-      console.log("Remove Favourite Clicked");
       removeFavouriteMutation.mutate(listingId);
     } else {
-      console.log("Add Favourite Clicked");
       addFavouriteMutation.mutate(listingId);
     }
   };

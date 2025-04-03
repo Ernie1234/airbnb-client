@@ -46,7 +46,6 @@ export const useFavourites = (enabled: boolean = true) => {
           duration: 5000,
           richColors: true,
         });
-        console.error("Error adding favourite:", error);
       },
     }
   );
@@ -75,7 +74,6 @@ export const useFavourites = (enabled: boolean = true) => {
         duration: 5000,
         richColors: true,
       });
-      console.error("Error removing favourite:", error);
     },
   });
 

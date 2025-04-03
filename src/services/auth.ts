@@ -14,11 +14,8 @@ export const registerUser = async (userData: {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      // Log the error for debugging
-      console.error("Registration error:", error);
       throw new Error(error.response?.data?.message || "Registration failed!");
     } else {
-      console.error("Unexpected error:", error);
       throw new Error("Registration failed");
     }
   }
@@ -33,11 +30,8 @@ export const loginUser = async (userData: {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      // Log the error for debugging
-      console.error("Login error:", error);
       throw new Error(error.response?.data?.message || "Login failed!");
     } else {
-      console.error("Unexpected error:", error);
       throw new Error("Login failed");
     }
   }

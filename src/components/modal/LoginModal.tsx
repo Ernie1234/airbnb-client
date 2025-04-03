@@ -33,7 +33,6 @@ const LoginModal = () => {
       return response;
     },
     onSuccess: (data: any) => {
-      console.log(data);
       localStorage.setItem("token", data.user.token);
       queryClient.invalidateQueries({ queryKey: ["getFavourites"] });
 

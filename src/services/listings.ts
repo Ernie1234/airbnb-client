@@ -17,10 +17,8 @@ export const getAllListing = async (category?: string, location?: string) => {
   } catch (error) {
     if (axios.isAxiosError(error)) {
       // Log the error for debugging
-      console.error("Error Listing:", error);
       throw new Error(error.response?.data?.message || "Listing failed!");
     } else {
-      console.error("Unexpected error:", error);
       throw new Error("Listing failed");
     }
   }
@@ -32,11 +30,8 @@ export const getListingById = async (listingId: string) => {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      // Log the error for debugging
-      console.error("Error Listing:", error);
       throw new Error(error.response?.data?.message || "Listing failed!");
     } else {
-      console.error("Unexpected error:", error);
       throw new Error("Listing failed");
     }
   }
@@ -58,12 +53,10 @@ export const createListing = async (listingData: {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error("Listing creation error:", error);
       throw new Error(
         error.response?.data?.message || "Listing creation failed!"
       );
     } else {
-      console.error("Unexpected error:", error);
       throw new Error("Listing creation failed");
     }
   }

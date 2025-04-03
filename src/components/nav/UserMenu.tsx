@@ -35,8 +35,6 @@ const UserMenu = () => {
     rentModal.onOpen();
   }, [loginModal, rentModal, isLoggedIn]);
 
-  // console.log("In UserMenu: ", isLoggedIn, isLoading, user);
-
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
