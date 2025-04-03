@@ -63,6 +63,11 @@ export const SingleListingHeader = ({ title, listingId }: Props) => {
         >
           {isLoading || userLoading ? (
             <Loader2 className="h-4 w-4" />
+          ) : !isLoggedIn ? (
+            <div onClick={() => loginModal.onOpen()}>
+              <Heart className={cn("h-5 w-5 fill-transparent")} />
+              <span className="font-[700]">Save</span>
+            </div>
           ) : (
             <>
               <Heart
