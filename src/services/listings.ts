@@ -2,16 +2,29 @@ import axiosInstance from "./axiosInstance";
 import axios from "axios"; // Import axios
 
 // Update the function to accept an optional category parameter
-export const getAllListing = async (category?: string, location?: string) => {
+export const getAllListing = async (
+  category?: string,
+  location?: string,
+  page: number = 1,
+  limit: number = 10
+) => {
   try {
-    // Construct the query parameters
-    const params: { category?: string; location?: string } = {};
+    const params: {
+      category?: string;
+      location?: string;
+      page?: number;
+      limit?: number;
+    } = {};
+
     if (category) {
       params.category = category;
     }
     if (location) {
       params.location = location;
     }
+    params.page = page;
+    params.limit = limit;
+
     const response = await axiosInstance.get("/listings", { params }); // Pass params as query parameters
     return response.data;
   } catch (error) {
